@@ -15,18 +15,23 @@ green=0x00ff00
 yellow=0xffff00
 red=0xff0000
 
+titles = bitmap_label.Label(terminalio.FONT, scale=2)
+titles.anchor_point = (.95, 0.5)
+titles.anchored_position = (display.width // 2, display.height // 2)
+
 co2_text = bitmap_label.Label(terminalio.FONT, scale=2)
-co2_text.anchor_point = (0.0, 2.5)
-co2_text.anchored_position = (0, display.height // 2)
+co2_text.anchor_point = (0.4, 1.7)
+co2_text.anchored_position = (display.width // 2, display.height // 2)
 
 temp_text = bitmap_label.Label(terminalio.FONT, scale=2)
-temp_text.anchor_point = (0.0, 0.5)
-temp_text.anchored_position = (0, display.height // 2)
+temp_text.anchor_point = (0.5, 0.5)
+temp_text.anchored_position = (display.width // 2, display.height // 2)
 
 rh_text = bitmap_label.Label(terminalio.FONT, scale=2)
-rh_text.anchor_point = (0.0, -1.3)
-rh_text.anchored_position = (0, display.height // 2)
+rh_text.anchor_point = (-0.1, -0.7)
+rh_text.anchored_position = (display.width // 2, display.height // 2)
 
+main_group.append(titles)
 main_group.append(co2_text)
 main_group.append(temp_text)
 main_group.append(rh_text)
@@ -36,6 +41,8 @@ print(display.width)
 print(display.height)
 
 display.show(main_group)
+
+titles.text = "CO2: \nTemp: \nHumidity: "
 
 while True:
     if scd.data_available:
@@ -62,7 +69,7 @@ while True:
         else:
             rh_text.color = red
         
-        co2_text.text = "CO2: {} PPM".format(scd.CO2)
-        temp_text.text = "Temp: {:.1f}".format(scd.temperature)
-        rh_text.text = "Humidity {:.1f} % rH".format(scd.relative_humidity)
+        co2_text.text = "{:.1f} PPM".format(scd.CO2)
+        temp_text.text = "{:.1f} C".format(scd.temperature)
+        rh_text.text = "{:.1f} % rH".format(scd.relative_humidity)
     time.sleep(0.5)
